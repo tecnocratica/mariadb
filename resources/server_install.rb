@@ -60,7 +60,7 @@ action :create do
   bash 'generate-mariadb-root-password' do
     user 'root'
     code <<-EOH
-    echo "SET PASSWORD FOR 'root'@'localhost' = PASSWORD(\'#{mariadb_root_password}\');" | /usr/bin/mysql
+    echo "SET PASSWORD FOR 'root'@'localhost' = PASSWORD(\'#{mariadb_root_password}\');" | /usr/bin/mysql -uroot -p#{mariadb_root_password}
     EOH
     not_if { ::File.exist? "#{data_dir}/recovery.conf" }
     only_if { new_resource.password }
